@@ -3,5 +3,8 @@ module.exports = [{
     },
     {
         register: require('../db')
+    },
+    {
+        register: require('../auth')
     }
 ]
