@@ -1,6 +1,25 @@
+import mongoose from 'mongoose';
+import User from './models/user';
+import _ from 'lodash';
+
 const validate = (decoded, request, callback) => {
-    console.log(decoded);
-    //console.log(request);
+    let creds;
+    User.findOne({ username: decoded._doc.username }).then((err, user) => {
+        if (err) {
+            console.log(err)
+        } else {
+            if (decoded._doc.username === user.username && decoded._doc.password === user.password) {
+                creds = user;
+            }
+        }
+    })
+    let error
+
+    if (_.isEmpty(creds)) {
+        return callback(error, true, creds)
+    } else {
+        return callback(error, false)
+    }
 }
 
 exports.register = (server, options, next) => {

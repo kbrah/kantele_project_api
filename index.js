@@ -1,4 +1,6 @@
 const plugins = require('./server/config/plugins');
+import authRoutes from './server/routes/authRoutes';
+import compositionRoutes from './server/routes/compositionRoutes';
 
 exports.register = (server, options, next) => {
 
@@ -8,7 +10,8 @@ exports.register = (server, options, next) => {
             return next(err)
         }
 
-        server.route(require('./server/routes/base'));
+        server.route(authRoutes);
+        server.route(compositionRoutes)
         next();
     });
 };
