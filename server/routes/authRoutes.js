@@ -10,5 +10,10 @@ export default [{
         method: 'POST',
         path: '/login',
         config: authController.login
+    },
+    {
+        method: 'POST',
+        path: '/facebook/login',
+        config: authController.facebookLogin
     }
 ]

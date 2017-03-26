@@ -3,10 +3,20 @@ import bcrypt from 'bcrypt';
 const SALT_WORK_FACTOR = 10;
 
 const UserSchema = new mongoose.Schema({
+    _id: { type: String, required: true }, // Using _id field as email field
     username: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true }
 });
 
+// setting email field as _id field
+UserSchema.virtual('email')
+    .get(() => {
+        return this._id;
+    })
+    .set(function(email) {
+        this.set('_id', email)
+    });
+// before saving user, hashing and salting the password
 UserSchema.pre('save', function(next) {
     let user = this;
     //only hash the password if it has been modified (or is new)

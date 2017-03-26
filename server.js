@@ -5,7 +5,13 @@ import Hapi from 'hapi';
 const mongojs = require('mongojs');
 
 // Create a server with a host and port
-const server = new Hapi.Server();
+const server = new Hapi.Server({
+    connections: {
+        routes: {
+            cors: true
+        }
+    }
+});
 server.connection({
     port: 8080
 });

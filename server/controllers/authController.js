@@ -2,6 +2,7 @@ import JWT from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import User from '../models/user';
 import Boom from 'boom'
+import passport from 'passport';
 module.exports = {
     index: {
         handler: (request, reply) => {
@@ -14,11 +15,13 @@ module.exports = {
     register: {
         handler: (request, reply) => {
             const newUser = new User({
+                'email': request.payload.email,
                 'username': request.payload.username,
                 'password': request.payload.password
             })
             newUser.save((err) => {
                 if (err) {
+                    console.log(err)
                     reply(Boom.wrap(err, 400));
                     return;
                 }
@@ -50,6 +53,12 @@ module.exports = {
                     }
                 })
             });
+        },
+        auth: false
+    },
+    facebookLogin: {
+        handler: (request, reply) => {
+
         },
         auth: false
     }

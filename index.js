@@ -9,7 +9,6 @@ exports.register = (server, options, next) => {
         if (err) {
             return next(err)
         }
-
         server.route(authRoutes);
         server.route(compositionRoutes)
         next();
