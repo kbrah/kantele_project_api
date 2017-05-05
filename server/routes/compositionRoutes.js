@@ -9,5 +9,10 @@ export default [{
         method: 'GET',
         path: '/composition/get/all',
         config: compositionController.getAllCompositions
+    },
+    {
+        method: 'POST',
+        path: '/composition/edit',
+        config: compositionController.editComposition
     }
 ]

@@ -17,7 +17,8 @@ module.exports = {
             const newUser = new User({
                 'email': request.payload.email,
                 'username': request.payload.username,
-                'password': request.payload.password
+                'password': request.payload.password,
+                'role': 'user'
             })
             newUser.save((err) => {
                 if (err) {
@@ -47,7 +48,7 @@ module.exports = {
                     if (isMatch) {
                         const token = JWT.sign(user, 'mysecret')
 
-                        reply("Here's your token").header("Authorization", token);
+                        reply(token).code(200)
                     } else {
                         reply("Wrong username or password").code(401);
                     }

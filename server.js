@@ -8,7 +8,9 @@ const mongojs = require('mongojs');
 const server = new Hapi.Server({
     connections: {
         routes: {
-            cors: true
+            cors: {
+                origin: ['http://localhost:4200']
+            }
         }
     }
 });

@@ -17,6 +17,7 @@ export default {
                             reply("Created").code(200);
 
                         } catch (err) {
+                            console.log(err)
                             reply("virhe").code(500)
                         }
                     })
@@ -32,7 +33,7 @@ export default {
         handler: (request, reply) => {
             try {
                 Composition.find({})
-                    .select('-_id -__v').lean()
+                    .select('-__v').lean()
                     .populate('added_by', 'username -_id')
                     .exec((err, compositions) => {
                         if (err) {
@@ -47,5 +48,38 @@ export default {
             }
         },
         auth: false
+    },
+    editComposition: {
+        handler: (request, reply) => {
+            try {
+                Composition.findOne({ _id: request.payload._id })
+                    .populate('added_by', 'username -_id')
+                    .exec((err, doc) => {
+                        if (err || doc === null || doc === {}) {
+                            reply("No such document").code(200)
+                            return
+                        }
+                        console.log(doc)
+                        if (request.auth.credentials._doc.username !== doc.added_by.username) {
+
+                            reply("Cant do that").code(401)
+                            return
+                        }
+                        console.log(request.server.auth)
+                        Composition.findOneAndUpdate({ _id: request.payload._id }, { $set: request.payload }, { new: true }, (err, doc) => {
+                            if (err) {
+                                reply("Edit failed").code(500)
+                            }
+                            reply("Edit success").code(200)
+                        })
+                    })
+
+
+            } catch (err) {
+                console.log(err)
+                reply("Error").code(500)
+            }
+        },
+        auth: 'jwt'
     }
 }

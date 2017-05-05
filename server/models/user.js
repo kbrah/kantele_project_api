@@ -5,7 +5,8 @@ const SALT_WORK_FACTOR = 10;
 const UserSchema = new mongoose.Schema({
     _id: { type: String, required: true }, // Using _id field as email field
     username: { type: String, required: true, index: { unique: true } },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    role: { type: String, required: true }
 });
 
 // setting email field as _id field
