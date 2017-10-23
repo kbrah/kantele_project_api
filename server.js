@@ -9,7 +9,7 @@ const server = new Hapi.Server({
     connections: {
         routes: {
             cors: {
-                origin: ['http://localhost:4200']
+                origin: ['http://localhost:3000']
             }
         }
     }

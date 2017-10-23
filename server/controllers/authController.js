@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import User from '../models/user';
 import Boom from 'boom'
 import passport from 'passport';
+import { cookie_options } from '../auth.js'
+
 module.exports = {
     index: {
         handler: (request, reply) => {
@@ -46,9 +48,19 @@ module.exports = {
                         reply("Wrong username or password").code(401);
                     }
                     if (isMatch) {
-                        const token = JWT.sign(user, 'mysecret')
-
-                        reply(token).code(200)
+                        const token = JWT.sign({ username: user.username, password: user.password }, 'mysecret')
+                        console.log(cookie_options)
+                        reply({
+                            text: "You have been authenticated",
+                            username: user.username,
+                            role: user.role,
+                            email: user._id
+                        }).header("Authorization", token).state("token", token, {
+                            isHttpOnly: true,
+                            ttl: 365 * 24 * 60 * 60 * 1000,
+                            encoding: 'none',
+                            isSecure: true,
+                        }).code(200)
                     } else {
                         reply("Wrong username or password").code(401);
                     }
@@ -56,6 +68,12 @@ module.exports = {
             });
         },
         auth: false
+    },
+    logout: {
+        handler: () => {
+            return reply({ text: 'You have been logged out' }).unstate('token', cookie_options)
+        },
+        auth: 'jwt'
     },
     facebookLogin: {
         handler: (request, reply) => {

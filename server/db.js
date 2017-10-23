@@ -9,7 +9,7 @@ exports.register = (server, options, next) => {
     //server.app.db = mongojs('localhost:27017/test', ['books', 'users']);
 
     mongoose.connect(
-        "35.158.71.229/kanttidb", {
+        "pilvi.rocks:5001/kanttidb", {
             user: 'lasse',
             pass: 'lassenKantti',
 

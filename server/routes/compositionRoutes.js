@@ -1,9 +1,14 @@
-import compositionController from '../controllers/compositionController'
+import compositionController from '../controllers/compositionController';
 
 export default [{
         method: 'POST',
         path: '/composition/add',
-        config: compositionController.insertComposition
+        config: compositionController.addComposition
+    },
+    {
+        method: 'GET',
+        path: '/composition/search',
+        config: compositionController.searchCompositions
     },
     {
         method: 'GET',
@@ -15,4 +20,4 @@ export default [{
         path: '/composition/edit',
         config: compositionController.editComposition
     }
-]
+];

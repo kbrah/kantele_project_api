@@ -43,6 +43,15 @@ exports.register = (server, options, next) => {
         });
     next();
 }
+export const cookie_options = {
+    ttl: 365 * 24 * 60 * 60 * 1000, // expires a year from today
+    encoding: 'none',    // we already used JWT to encode
+    isSecure: true,      // warm & fuzzy feelings
+    isHttpOnly: true,    // prevent client alteration
+    clearInvalid: false, // remove invalid cookies
+    strictHeader: true,
+    path: '/'   // don't allow violations of RFC 6265
+}
 
 exports.register.attributes = {
     name: 'auth'

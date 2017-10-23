@@ -5,7 +5,7 @@ import User from './user';
 // TODO: make needed fields unique
 
 const CompositionSchema = new Schema({
-    skill_level: {
+    difficulty: {
         type: String,
         enum: [
             "beginner",
@@ -19,7 +19,7 @@ const CompositionSchema = new Schema({
         ],
         lowercase: true
     },
-    era_or_style: {
+    era: {
         type: String,
         enum: [
             "middle_ages",
@@ -41,12 +41,12 @@ const CompositionSchema = new Schema({
     arranger: String,
     name: String,
     year: String,
-    original_instruments: [],
+    instrumentation: String,
     availability_info: String,
     extra_info: String,
     recording: [],
     duration: { type: String, match: [/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/, "wrong time format"] },
-    concertos: String,
+    concertos: String, // ???
     added_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, {
     timestamps: true
@@ -64,13 +64,13 @@ CompositionSchema.methods.newComposition = function newComposition(data, added_b
         let Composition = mongoose.model('Composition', CompositionSchema)
 
         Composition.create({
-                skill_level: data.skill_level,
-                era_or_style: data.era_or_style,
+                difficulty: data.difficulty,
+                era: data.era,
                 composer: data.composer,
                 arranger: data.arranger,
                 name: data.name,
                 year: data.year,
-                original_instruments: data.original_instruments,
+                instrumentation: data.instrumentation,
                 availability_info: data.availability_info,
                 extra_info: data.extra_info,
                 recording: data.recording,
