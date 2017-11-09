@@ -4,11 +4,11 @@ import _ from 'lodash';
 
 const validate = (decoded, request, callback) => {
     let creds;
-    User.findOne({ username: decoded._doc.username }).then((err, user) => {
+    User.findOne({ username: decoded.username }).then((err, user) => {
         if (err) {
             console.log(err)
         } else {
-            if (decoded._doc.username === user.username && decoded._doc.password === user.password) {
+            if (decoded.username === user.username && decoded.password === user.password) {
                 creds = user;
             }
         }

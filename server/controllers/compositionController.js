@@ -8,7 +8,7 @@ export default {
         handler: (request, reply) => {
             try {
                 let newComposition = new Composition();
-                newComposition.newComposition(request.payload, request.auth.credentials._doc.username,
+                newComposition.newComposition(request.payload, request.auth.credentials.username,
                     (err, composition) => {
                         try {
                             if (err) {
@@ -18,13 +18,14 @@ export default {
 
                         } catch (error) {
                             console.log(error);
-                            reply("virhe").code(500);
+                            reply(JSON.stringify(error)).code(500);
                         }
                     });
 
 
             } catch (err) {
-                reply("Error").code(500);
+                console.log(err)
+                reply(JSON.stringify(err)).code(500);
             }
         },
         auth: 'jwt'
@@ -67,10 +68,10 @@ export default {
                                     {composer:{$regex: ".*" + searchValue + ".*", $options: 'i'}}
                                 ],
                             } : {},
-                            difficulty.length !== 0 ? {skill_level: {$in: difficulty}} : {},
+                            difficulty.length !== 0 ? {difficulty: {$in: difficulty}} : {},
                             //type !== [] ? {type: {$in: type}} : {},
-                            instrumentation.length !== 0 ? {original_instruments: {$in: instrumentation}} : {},
-                            era.length !== 0 ? {era_or_style: {$in: era}} : {}
+                            instrumentation.length !== 0 ? {instrumentation: {$in: instrumentation}} : {},
+                            era.length !== 0 ? {era: {$in: era}} : {}
 
                         ]
                     }

@@ -41,7 +41,7 @@ const CompositionSchema = new Schema({
     arranger: String,
     name: String,
     year: String,
-    instrumentation: String,
+    instrumentation: [],
     availability_info: String,
     extra_info: String,
     recording: [],
@@ -54,6 +54,7 @@ const CompositionSchema = new Schema({
 
 // Method for creating new Composition to the database
 CompositionSchema.methods.newComposition = function newComposition(data, added_by, callback) {
+    console.log(data)
     User.findOne({ username: added_by }, (err, user) => {
         if (err) {
             throw "Error in finding the user"
@@ -64,20 +65,20 @@ CompositionSchema.methods.newComposition = function newComposition(data, added_b
         let Composition = mongoose.model('Composition', CompositionSchema)
 
         Composition.create({
-                difficulty: data.difficulty,
-                era: data.era,
-                composer: data.composer,
-                arranger: data.arranger,
-                name: data.name,
-                year: data.year,
-                instrumentation: data.instrumentation,
-                availability_info: data.availability_info,
-                extra_info: data.extra_info,
-                recording: data.recording,
-                duration: data.duration,
-                concertos: data.concertos,
-                added_by: user
-            },
+            difficulty: data.difficulty,
+            era: data.era ? data.era : undefined,
+            composer: data.composer,
+            arranger: data.arranger,
+            name: data.name,
+            year: data.year,
+            instrumentation: data.instrumentation,
+            availability_info: data.availability_info,
+            extra_info: data.extra_info,
+            recording: data.recording,
+            duration: data.duration,
+            concertos: data.concertos,
+            added_by: user
+        },
             callback
         )
 

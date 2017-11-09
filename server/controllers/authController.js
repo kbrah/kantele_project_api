@@ -54,12 +54,8 @@ module.exports = {
                             text: "You have been authenticated",
                             username: user.username,
                             role: user.role,
-                            email: user._id
-                        }).header("Authorization", token).state("token", token, {
-                            isHttpOnly: true,
-                            ttl: 365 * 24 * 60 * 60 * 1000,
-                            encoding: 'none',
-                            isSecure: true,
+                            email: user._id,
+                            jwt: token
                         }).code(200)
                     } else {
                         reply("Wrong username or password").code(401);
